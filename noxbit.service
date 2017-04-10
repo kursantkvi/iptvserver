@@ -1,0 +1,54 @@
+
+# systemd
+
+
+
+#
+# 1 Edit username, group, path, etc..
+# 2 Copy to /etc/systemd/system/
+# 3 systemctl enable noxbit.service
+# 4 systemctl start  noxbit.service
+# 5 systemctl -l status noxbit.service
+
+
+# 1 Установить пути, имена пользователей итп как надо.
+# 2 Копироваль файл в /etc/systemd/system/
+# 3 systemctl enable noxbit.service
+# 4 systemctl start  noxbit.service
+# 5 Проверим что работает systemctl -l status noxbit.service
+#
+
+
+[Unit]
+Description=Noxbit torrenttv
+After=syslog.target
+After=network.target
+#Requires=
+#Wants=
+
+[Service]
+# Пожалуйста, как только починят работу НЕ под рутом, поменяйте пользователя на
+#  пользователя с пониженными привилегиями, типа nobody:nogroup итп.
+
+User=root
+Group=root
+
+
+WorkingDirectory=/opt/noxbit/
+#Environment=RACK_ENV=production
+
+OOMScoreAdjust=-100
+
+Restart=always
+RestartSec=5
+
+
+ExecStart=/opt/noxbit/STM-Hypervisor  -config=/opt/noxbit/noxbit.cfg 
+
+#ExecStop=/usr/local/bin/bundle exec service -S /work/www/myunit/shared/tmp/pids/service.state stop
+#ExecReload=/usr/local/bin/bundle exec service -S /work/www/myunit/shared/tmp/pids/service.state restart
+#TimeoutSec=30
+
+
+[Install]
+WantedBy=multi-user.target 
