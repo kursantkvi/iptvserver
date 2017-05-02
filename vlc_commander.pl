@@ -20,6 +20,12 @@ if (-f $glbpath) {
   $glb=retrieve($glbpath);
 }
 
+my $whoami=getpwuid($<);
+my $sudo='sudo';
+if ($whoami == 'root') {
+  $sudo='';
+}
+
 my $in=$ARGV[0];
 my $t = new Net::Telnet (Timeout => 10,
                          Prompt => '/bash\$ $/',
@@ -225,7 +231,7 @@ while(1) {
       }
     }
     close(FILE);
-    `sudo rm -f $stopdir/$file`;
+    `$sudo rm -f $stopdir/$file`;
     print Dumper($glb->{$ipaddress});
   }
   closedir $stopcmd;
@@ -254,7 +260,7 @@ while(1) {
       }
     }
     close(FILE);
-    `sudo rm -f $playdir/$file`;
+    `$sudo rm -f $playdir/$file`;
     print Dumper($glb->{$ipaddress});
   }
   $t->print("");
