@@ -23,3 +23,14 @@ Multicast server over VLC
     check_startup_scripts.sh - проверка что все запущено (работает по крону)
 
   playlist.m3u - пример входного плейлиста.
+
+  
+Зависимости PERL
+  Net::PcapUtils;
+  NetPacket::Ethernet;
+  NetPacket::IP;
+  NetPacket::IGMP;
+  Data::Dumper;
+  Net::Telnet
+  Storable;
+  Time::HiRes;
