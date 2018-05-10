@@ -11,17 +11,17 @@ use IO::Socket::INET;
 my $host="127.0.0.1";
 my $port="4212";
 my $password="123";
-my $interface="ens224";#   "ens192";
-my $INTERFACE="ENS224";#   "ENS192";
-my $interface_address="192.168.100.2";
+my $interface="xxxxx";                # interface to streaming multicast (low-case) / Интерфейс с которого будет идти поток мультикаста (нижний регистр)
+my $INTERFACE="XXXXX";                # interface to streaming multicast (HIGH-CASE)/ Интерфейс с которого будет идти поток мультикаста (верхний регистр)
+my $interface_address="aaa.bbb.ccc.ddd"; # ip-address to streaming multicast / IP-адрес с которого будет идти поток мультикаста 
 
 my $playdir='/tmp/iptvplay';
 my $stopdir='/tmp/iptvstop';
 my $wwwpath='/var/www/p.m3u';
 my $glbpath='/usr/iptvserver/iptvmembers';
 
-my $server_port = 6745;
-my $server = "0.0.0.0";  # Host IP running the server
+my $server_port = 6745;                # Port running the server / Порт на который будет 
+my $server = "0.0.0.0";                # Host IP running the server /
 
 my $socket = new IO::Socket::INET (
     LocalHost => $server,

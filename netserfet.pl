@@ -10,11 +10,14 @@ use IO::Socket::INET;
 
 my $playdir='/tmp/iptvplay';
 my $stopdir='/tmp/iptvstop';
-my $interface="ens33";
+my $interface="XXX";                   # LISTENING port     / Порт на котором слушаем мультикаст-запросы 
 
 my $host = 'localhost';
-my $port = 6745;
-my $server = "192.168.100.1";  # Host IP running the server
+my $port = XXXX;                       # VLC_COMMANDER port / Порт сервера с vlc_commander
+my $server = "aaa.bbb.ccc.ddd";        # VLC_COMMANDER host / IP-адрес хоста с vlc_commander
+
+my $restart_address='eee.fff.ggg.hhh'; # RESTART MCAST addr / Мультикаст адрес, вызов которого приведет к перезагрузке всей системы вещания
+
 
 if (!(-d $playdir)) {
   `mkdir $playdir`;
@@ -30,10 +33,6 @@ sub process_pkt {
 
     my $ip_obj = NetPacket::IP->decode(eth_strip($pkt));
     my $igmp_obj = NetPacket::IGMP->decode($ip_obj->{data});
-#    my (@gaddrfull) = unpack('C*',$ip_obj->{data});
-#    print STDERR Dumper(@gaddrfull);
-#    print STDERR Dumper($ip_obj);
-#    print STDERR Dumper($igmp_obj);
 
     my $socket = new IO::Socket::INET (
         PeerHost => $server,
@@ -43,7 +42,7 @@ sub process_pkt {
     die "cannot connect to the server $!\n" unless $socket;
     print "connected to the server\n";
 
-    if ($igmp_obj->{'group_addr'}=~/239.255.10.130/) {
+    if ($igmp_obj->{'group_addr'}=~/$restart_address/) {
       my $cur_time=time();
       if ($cur_time-$lastrestart>120) {
         `/usr/iptvserver/restart_iptv.sh force`;
